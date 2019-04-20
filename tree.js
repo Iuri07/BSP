@@ -26,9 +26,9 @@ function setInitialX(node){
 		if(node.parent.children[1] == node)
 			node.x = node.parent.children[0].x + 30;
 		else
-			node.x = 100;
+			node.x = 50;
 	else 
-		node.x = 100;
+		node.x = 50;
 	return;
 }
 
@@ -86,6 +86,7 @@ function fixMiddle(node){
 	let contourright = {};
 	let cl = [];
 	let cr = [];
+	let distances = [];
 	let shift = 0;
 	if(node.children.length > 0){
 		getRightContour(node.children[0], node.mod, contourright);
@@ -94,10 +95,15 @@ function fixMiddle(node){
 		cr = Object.values(contourright);
 		for(i = 0; i < (cl.length < cr.length ? cl.length : cr.length); i++){
 			let distance = cl[i] - cr[i];
-			console.log(cl.length < cr.length ? cl.length : cr.length)
-			if(distance + shift < 30){
+			distances.push(distance)
+			if(distance + shift !== 30){
 				shift = Math.max(shift, 30 - distance); 
 			}
+		}
+		if(shift == 0){
+			min = Math.min.apply(null, distances);
+			if(min > 30)
+				shift = 30 - min;
 		}
 		node.children[1].x += shift;
 		node.children[1].mod += shift;
@@ -108,6 +114,15 @@ function fixMiddle(node){
 		return;
 	}
 
+}
+
+function getMostLeft(node){
+	if(node.children.length !== 0){
+		let minx_l = getMostLeft(node.children[0]);
+		let minx_r = getMostLeft(node.children[1]);
+		return(Math.min(node.x, Math.min(minx_l, minx_r)))
+	}else
+		return node.x;
 }
 
 function setMod(node, modSum){
@@ -121,10 +136,10 @@ function setMod(node, modSum){
 		return;
 }
 
-function center(node){
+function centerParents(node){
 	if(node.children.length !== 0){
-		center(node.children[0]);
-		center(node.children[1]);
+		centerParents(node.children[0]);
+		centerParents(node.children[1]);
 		node.x = (node.children[0].x + node.children[1].x)/2;
 	}
 }
@@ -156,9 +171,13 @@ function build(root){
 		for(let i = 0; i < total_height+1; i++){
 			fixMiddle(root);
 			setMod(root, 0);
-			center(root);
+			centerParents(root);
 			setMod(root, 0);
 		}
+		let minX = getMostLeft(root);
+		
+		if(minX < 50);
+			setMod(root, 50 - minX)
 
 	}
 }
