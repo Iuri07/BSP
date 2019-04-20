@@ -151,8 +151,6 @@ function build(root){
 	setInitialX(root);
 	setTestHeight(root, 50);
 	if(root.children.length > 0){
-		setInitialX(root);
-		setTestHeight(root, 50);
 		setSecondX(root);
 		total_height = getHeight(root, height);
 		for(let i = 0; i < total_height+1; i++){
