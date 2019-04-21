@@ -137,10 +137,11 @@ class Node {
 
 			if(!isInside(mouse_drag, this.vertex) && mouseIsDragged){
 				var brother = this.getBrother();
+				var father = this.parent;
 				fill(brother.color[0], brother.color[1], brother.color[2]);
 				strokeWeight(2);
 				stroke(51);
-				ellipse(brother.x, brother.y, 15);
+				ellipse(father.x, father.y, 15);
 			}
 			return;
 

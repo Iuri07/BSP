@@ -46,7 +46,7 @@ function draw() {
 	
 	if(mouseIsDragged){
 		strokeWeight(1.5);
-		stroke(51);
+		stroke(255);
   		line(mouse_press.x, mouse_press.y, mouse_drag.x, mouse_drag.y);
 	}
 }
