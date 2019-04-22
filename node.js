@@ -153,10 +153,18 @@ class Node {
 	}
 	getBrother(){
 		if(this.parent != null){
-			if(this.parent.children[0] == this)
-				return this.parent.children[1];
-			else return this.parent.children[0];	
-		
+			if(this.parent.children[0] == this){
+				let brother = this.parent.children[1];
+				while(brother.children.length !== 0)
+					brother = brother.children[0]
+				return brother;
+			}
+			else{
+				let brother = this.parent.children[0];
+				while(brother.children.length !== 0)
+					brother = brother.children[0]
+				return brother;
+			} 
 		} else return null;
 
 	}
