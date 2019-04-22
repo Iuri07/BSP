@@ -279,9 +279,9 @@ function position(line_r, line_s, point){
 function randomColor(){
 	var r,g,b;
 	var color = [];
-	r = random(255); 
-	g = random(255);
-	b = random(255);
+	r = random(240); 
+	g = random(240);
+	b = random(240);
 	color.push(r,g,b);
 	return color;
 }

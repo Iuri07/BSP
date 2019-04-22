@@ -6,6 +6,7 @@ function setup() {
 	enter_flag = false;
 	glow_flag = false;
 	mouseIsDragged = false;
+	dragCanceled = false;
 
 	mouse_press = new Point(0,0);
 	mouse_drag = new Point(0,0);
@@ -52,32 +53,42 @@ function draw() {
 }
 
 function mouseDragged(){
-  	mouse_drag.x = mouseX;
-  	mouse_drag.y = mouseY;
-  	glow_flag = true;
-  	mouseIsDragged = true;
-  	redraw();
+	if(!dragCanceled){ 
+		mouse_drag.x = mouseX;
+		mouse_drag.y = mouseY;
+		glow_flag = true;
+		mouseIsDragged = true;
+		
+		redraw();
+	}
 }
 
 function mousePressed(){
+		  
   	mouse_press.x = mouseX;
   	mouse_press.y = mouseY;
   	redraw();
 } 
 
 function mouseReleased(){
-  	glow_flag = false;
-  	mouseIsDragged = false;
-	mouse_drag.x = mouseX;
-  	mouse_drag.y = mouseY;
-  	if(mouse_drag.x != mouse_press.x && mouse_drag.y != mouse_press.y)
+	if(!dragCanceled){
+		glow_flag = false;
+		mouseIsDragged = false;
+		mouse_drag.x = mouseX;
+		mouse_drag.y = mouseY;
+		if(mouse_drag.x != mouse_press.x && mouse_drag.y != mouse_press.y)
 		node.mouseRelease();
-  	redraw();
+		redraw();
+	}else dragCanceled = false;
 } 
 
 function keyPressed() {
 	if (keyCode === ENTER)
 		enter_flag = !enter_flag;	
+	if(keyCode === ESCAPE && mouseIsDragged){
+		mouseIsDragged = false;
+		dragCanceled = true;
+	}
 	redraw();
 }
 
